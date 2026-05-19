@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Fontdiner+Swanky&display=swap" rel="stylesheet">
+  <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+        html, body {
+          min-height: 100dvh;
+          background: #0f172a; /* Запасной цвет */
+        }
+
+        body { 
+          font-family: 'Quicksand', sans-serif; 
+          background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #0f172a 100%) fixed;
+          margin: 0;
+          width: 100%;
+          color: #ffffff;
+        }
+  
+        #pet-name {
+          font-family: "Fontdiner Swanky", serif;
+          font-weight: 400;
+          letter-spacing: 2px;
+        }
+
+        .fancy-letter {
+          font-family: "Fontdiner Swanky", serif;
+          font-size: 3em;    
+          font-weight: 400;
+          color: #22d3ee; 
+          float: left; 
+          line-height: 42px;
+          padding-top: 4px;
+          padding-right: 3px;
+          margin-bottom: -2px;
+          text-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
+        }
+
+        .stat-row { 
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center; 
+          margin-bottom: 14px; 
+          font-size: 16px; 
+          font-weight: 700;
+          text-transform: uppercase;
+          width: 100%; 
+          letter-spacing: 1px;
+        }
+
+        .stat-label::first-letter {
+          font-family: "Fontdiner Swanky", serif;
+          font-size: 1.5em;   
+          color: #f472b6; 
+        }
+
+        .stars { 
+          color: #fbbf24; 
+          letter-spacing: 1.5px; 
+          font-size: 20px;     
+          filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.7));
+          margin-left: auto; 
+          white-space: nowrap; 
+        }   
+        
+        @keyframes jumpFlip {
+          0% { transform: translateY(0) scale(1) rotateX(0); }
+          30% { transform: translateY(-15px) scale(1.1) rotateX(0); }
+          50% { transform: translateY(-20px) scale(1.1) rotateX(180deg); }
+          70% { transform: translateY(-15px) scale(1.05) rotateX(360deg); }
+          100% { transform: translateY(0) scale(1) rotateX(360deg); }
+        }
+
+       @keyframes spinAround {
+          0% { transform: rotate(0deg) scale(1); }
+          50% { transform: rotate(180deg) scale(1.1); } 
+          100% { transform: rotate(360deg) scale(1); }
+        }
+
+       .spin-animation {
+          animation: spinAround 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          display: inline-block; 
+        }
+
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+          100% { transform: translateY(0px); }
+        }
+        .animated-pet {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        @media (max-width: 640px) {
+          body {
+            padding: 0 !important;
+            overflow-y: auto !important; 
+          }
+          .game-card {
+            border-radius: 0px !important;
+            border: 4px solid #d946ef !important; 
+            min-height: 100dvh; 
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
+            gap: 12px; 
+            padding: 16px !important;
+          }
+         
+          .animated-pet {
+            width: 140px !important;
+            height: 140px !important;
+          }
+          .stars {
+            font-size: 11px; 
+            letter-spacing: 3px;
+          }
+          .stat-row { 
+            line-height: 30px;
+          }
+        }
+  </style>
+  <title>JS - 8.2</title>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 sm:p-4">
+
+    <div class="game-card bg-slate-900/80 backdrop-blur-xl border-4 border-fuchsia-500 shadow-[0_0_40px_rgba(217,70,239,0.4)] w-full max-w-xl p-4 sm:p-6 rounded-3xl transition-all duration-300">
+        <div class="flex flex-col items-center text-center mb-3 border-b-2 border-slate-700/50 pb-3">
+            <div class="flex items-center justify-center w-44 h-44 sm:w-60 sm:h-60 shrink-0 mb-2 animated-pet">
+                <img id="pet-avatar" src="./img/normal.jpg" alt="Patoso" class="max-w-full max-h-full object-contain rounded-2xl drop-shadow-[0_10px_20px_rgba(255,255,255,0.15)]">
+            </div>     
+
+            <div class="w-full">
+                <h1 id="pet-name" onclick="game.animarNombre()" class="text-4xl sm:text-5xl mb-2 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-fuchsia-400 tracking-wide cursor-pointer select-none"></h1>
+                <p id="pet-description" class="text-sm sm:text-base leading-relaxed text-slate-300 font-medium bg-slate-950/40 p-2 sm:p-3 rounded-xl border border-slate-800">
+                    Patoso es un patito al que le encanta comer y jugar, pero odia que lo obliguen a dormir.
+                </p>
+            </div>
+        </div>
+
+        <div id="stats-container" class="bg-slate-950/60 p-3 sm:p-4 border-2 border-fuchsia-500/40 rounded-2xl mb-3 shadow-inner">
+       
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+            <button onclick="game.duchar()" class="bg-linear-to-b from-cyan-400 to-cyan-500 text-white text-base sm:text-lg py-2.5 sm:py-3.5 font-bold border-b-4 border-cyan-700 active:border-0 active:translate-y-1 rounded-xl shadow-[0_4px_10px_rgba(34,211,238,0.3)] cursor-pointer">DUCHAR</button>
+            <button onclick="game.alimentar()" class="bg-linear-to-b from-amber-400 to-amber-500 text-white text-base sm:text-lg py-2.5 sm:py-3.5 font-bold border-b-4 border-amber-700 active:border-0 active:translate-y-1 rounded-xl shadow-[0_4px_10px_rgba(251,191,36,0.3)] cursor-pointer">ALIMENTAR</button>
+            <button onclick="game.jugar()" class="bg-linear-to-b from-emerald-400 to-emerald-500 text-white text-base sm:text-lg py-2.5 sm:py-3.5 font-bold border-b-4 border-emerald-700 active:border-0 active:translate-y-1 rounded-xl shadow-[0_4px_10px_rgba(52,211,153,0.3)] cursor-pointer">JUGAR</button>
+            <button onclick="game.dormir()" class="bg-linear-to-b from-violet-500 to-violet-600 text-white text-base sm:text-lg py-2.5 sm:py-3.5 font-bold border-b-4 border-violet-800 active:border-0 active:translate-y-1 rounded-xl shadow-[0_4px_10px_rgba(139,92,246,0.3)] cursor-pointer">DORMIR</button>
+            <button onclick="game.reprender()" class="bg-linear-to-b from-rose-500 to-rose-600 text-white text-base sm:text-lg py-2.5 sm:py-3.5 font-bold border-b-4 border-rose-800 active:border-0 active:translate-y-1 rounded-xl shadow-[0_4px_10px_rgba(244,63,94,0.3)] cursor-pointer">REPRENDER</button>
+            <button onclick="game.acariciar()" class="bg-linear-to-b from-pink-400 to-pink-500 text-white text-base sm:text-lg py-2.5 sm:py-3.5 font-bold border-b-4 border-pink-700 active:border-0 active:translate-y-1 rounded-xl shadow-[0_4px_10px_rgba(244,114,182,0.3)] cursor-pointer">ACARICIAR</button>
+        </div>
+    </div>
+
+     <script src="./js/app.js"></script>
+</body>
+</html>
